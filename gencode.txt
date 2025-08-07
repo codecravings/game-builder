@@ -1,0 +1,485 @@
+🐛 Game Debug
+Hide Raw
+Title: Neon Nova
+Theme: space
+Style: cyberpunk
+Entities:
+• player (player) - Color: #00FFFF
+• drone_enemy (enemy) - Color: #FF3366
+• elite_enemy (miniboss) - Color: #AA00FF
+• asteroid_obstacle (environment) - Color: #777777
+• weapon_powerup (collectible) - Color: #FFAA00
+• shield_powerup (collectible) - Color: #00AAFF
+Level:
+• BG: #0D0221
+• Platforms: 2
+• Collectibles: 6
+{
+  "title": "Neon Nova",
+  "description": "A cyberpunk space shooter where you battle alien forces across asteroid fields and derelict space stations. Collect power-ups, upgrade your ship, and defeat massive bosses to save the galaxy.",
+  "gameType": "platformer",
+  "visualStyle": "cyberpunk",
+  "theme": "space",
+  "assets": {
+    "sprites": [
+      {
+        "name": "player_idle",
+        "description": "Player ship with glowing cyan engines and angular cyberpunk design",
+        "width": 24,
+        "height": 36,
+        "color": "#00FFFF",
+        "animations": [
+          "idle",
+          "boost",
+          "damage_flash"
+        ]
+      },
+      {
+        "name": "alien_drone",
+        "description": "Small triangular enemy with red glow and jagged edges",
+        "width": 24,
+        "height": 24,
+        "color": "#FF3366",
+        "animations": [
+          "patrol",
+          "attack_dive"
+        ]
+      },
+      {
+        "name": "alien_elite",
+        "description": "Mini-boss with purple armor and rotating shield segments",
+        "width": 48,
+        "height": 48,
+        "color": "#AA00FF",
+        "animations": [
+          "shield_rotation",
+          "laser_charge"
+        ]
+      },
+      {
+        "name": "asteroid",
+        "description": "Rocky space debris with neon mineral veins",
+        "width": 32,
+        "height": 32,
+        "color": "#777777",
+        "animations": [
+          "rotation_slow"
+        ]
+      },
+      {
+        "name": "powerup_weapon",
+        "description": "Floating cybernetic orb that pulses with orange light",
+        "width": 16,
+        "height": 16,
+        "color": "#FFAA00",
+        "animations": [
+          "pulse",
+          "rotate"
+        ]
+      },
+      {
+        "name": "powerup_shield",
+        "description": "Blue hexagonal energy field",
+        "width": 16,
+        "height": 16,
+        "color": "#00AAFF",
+        "animations": [
+          "energy_ripple"
+        ]
+      },
+      {
+        "name": "boss_core",
+        "description": "Massive alien mothership core with pulsating weak points",
+        "width": 96,
+        "height": 96,
+        "color": "#FF0066",
+        "animations": [
+          "core_pulse",
+          "tentacle_wave"
+        ]
+      }
+    ],
+    "sounds": [],
+    "music": null
+  },
+  "entities": [
+    {
+      "name": "player",
+      "type": "player",
+      "x": 100,
+      "y": 300,
+      "width": 24,
+      "height": 36,
+      "color": "#00FFFF",
+      "physics": {
+        "gravity": false,
+        "gravityForce": 0,
+        "jumpForce": 0,
+        "moveSpeed": 8,
+        "airControl": 1,
+        "maxSpeed": 12
+      },
+      "abilities": {
+        "attack": true,
+        "boostDash": true,
+        "specialWeapons": [
+          "homing_missiles",
+          "plasma_wave"
+        ]
+      },
+      "health": 3,
+      "sprite": "player_idle"
+    },
+    {
+      "name": "drone_enemy",
+      "type": "enemy",
+      "width": 24,
+      "height": 24,
+      "color": "#FF3366",
+      "behavior": "patrol_then_dive",
+      "health": 1,
+      "damage": 1,
+      "scoreValue": 25,
+      "sprite": "alien_drone",
+      "x": 100,
+      "y": 300
+    },
+    {
+      "name": "elite_enemy",
+      "type": "miniboss",
+      "width": 48,
+      "height": 48,
+      "color": "#AA00FF",
+      "behavior": "shielded_attack_pattern",
+      "health": 5,
+      "damage": 2,
+      "scoreValue": 150,
+      "sprite": "alien_elite",
+      "x": 100,
+      "y": 300
+    },
+    {
+      "name": "asteroid_obstacle",
+      "type": "environment",
+      "width": 32,
+      "height": 32,
+      "color": "#777777",
+      "behavior": "rotating_hazard",
+      "damage": 1,
+      "sprite": "asteroid",
+      "x": 100,
+      "y": 300
+    },
+    {
+      "name": "weapon_powerup",
+      "type": "collectible",
+      "width": 16,
+      "height": 16,
+      "color": "#FFAA00",
+      "effect": "upgrade_weapon",
+      "duration": 15,
+      "sprite": "powerup_weapon",
+      "x": 100,
+      "y": 300
+    },
+    {
+      "name": "shield_powerup",
+      "type": "collectible",
+      "width": 16,
+      "height": 16,
+      "color": "#00AAFF",
+      "effect": "temporary_invincibility",
+      "duration": 10,
+      "sprite": "powerup_shield",
+      "x": 100,
+      "y": 300
+    }
+  ],
+  "levels": [
+    {
+      "name": "Asteroid Belt",
+      "width": 2800,
+      "height": 800,
+      "background": "#0D0221",
+      "platforms": [
+        {
+          "type": "large_asteroid",
+          "x": 400,
+          "y": 500,
+          "width": 200,
+          "height": 80,
+          "color": "#445566"
+        },
+        {
+          "type": "floating_debris",
+          "x": 800,
+          "y": 300,
+          "width": 120,
+          "height": 40,
+          "color": "#334455"
+        }
+      ],
+      "collectibles": [
+        {
+          "type": "weapon_powerup",
+          "x": 350,
+          "y": 450
+        },
+        {
+          "type": "shield_powerup",
+          "x": 750,
+          "y": 250
+        },
+        {
+          "type": "weapon_powerup",
+          "x": 1200,
+          "y": 600
+        },
+        {
+          "type": "score_orb",
+          "x": 500,
+          "y": 200,
+          "value": 10
+        },
+        {
+          "type": "score_orb",
+          "x": 900,
+          "y": 400,
+          "value": 10
+        },
+        {
+          "type": "health_pack",
+          "x": 1500,
+          "y": 500,
+          "value": 1
+        }
+      ],
+      "enemies": [
+        {
+          "type": "drone_enemy",
+          "x": 600,
+          "y": 400,
+          "patrolRange": 150
+        },
+        {
+          "type": "drone_enemy",
+          "x": 1000,
+          "y": 200,
+          "patrolRange": 100
+        },
+        {
+          "type": "elite_enemy",
+          "x": 1800,
+          "y": 400
+        }
+      ],
+      "traps": [
+        {
+          "type": "asteroid_field",
+          "x": 1300,
+          "y": 200,
+          "width": 400,
+          "density": 8
+        },
+        {
+          "type": "energy_pulse",
+          "x": 2000,
+          "y": 0,
+          "width": 50,
+          "height": 800,
+          "interval": 3
+        }
+      ],
+      "goal": {
+        "x": 2600,
+        "y": 400,
+        "width": 64,
+        "height": 64,
+        "color": "#FFD700",
+        "type": "warp_gate"
+      }
+    },
+    {
+      "name": "Derelict Station",
+      "width": 3200,
+      "height": 900,
+      "background": "#1A0933",
+      "platforms": [
+        {
+          "type": "station_hull",
+          "x": 300,
+          "y": 600,
+          "width": 400,
+          "height": 30,
+          "color": "#226677"
+        },
+        {
+          "type": "broken_section",
+          "x": 800,
+          "y": 400,
+          "width": 200,
+          "height": 20,
+          "color": "#558899"
+        }
+      ],
+      "collectibles": [
+        {
+          "type": "weapon_powerup",
+          "x": 350,
+          "y": 550
+        },
+        {
+          "type": "shield_powerup",
+          "x": 850,
+          "y": 350
+        },
+        {
+          "type": "secret_upgrade",
+          "x": 1200,
+          "y": 200,
+          "hidden": true
+        }
+      ],
+      "enemies": [
+        {
+          "type": "drone_enemy",
+          "x": 500,
+          "y": 550,
+          "patrolRange": 200
+        },
+        {
+          "type": "elite_enemy",
+          "x": 1000,
+          "y": 350
+        },
+        {
+          "type": "turret_enemy",
+          "x": 1500,
+          "y": 700,
+          "angle": 45
+        }
+      ],
+      "traps": [
+        {
+          "type": "electric_arc",
+          "x": 700,
+          "y": 600,
+          "length": 300,
+          "interval": 2
+        },
+        {
+          "type": "gravity_well",
+          "x": 1800,
+          "y": 400,
+          "radius": 150
+        }
+      ],
+      "goal": {
+        "x": 3000,
+        "y": 450,
+        "width": 80,
+        "height": 120,
+        "color": "#FFD700",
+        "type": "boss_portal"
+      }
+    },
+    {
+      "name": "Alien Hive Core",
+      "width": 2400,
+      "height": 1000,
+      "background": "#33001A",
+      "platforms": [],
+      "collectibles": [
+        {
+          "type": "health_pack",
+          "x": 200,
+          "y": 900,
+          "value": 1
+        },
+        {
+          "type": "health_pack",
+          "x": 2200,
+          "y": 100,
+          "value": 1
+        }
+      ],
+      "enemies": [
+        {
+          "type": "boss_core",
+          "x": 1200,
+          "y": 500,
+          "phases": 3,
+          "attackPatterns": [
+            "tentacle_sweep",
+            "pulse_wave",
+            "spawn_minions"
+          ]
+        }
+      ],
+      "traps": [
+        {
+          "type": "energy_vortex",
+          "x": 600,
+          "y": 500,
+          "radius": 100
+        },
+        {
+          "type": "energy_vortex",
+          "x": 1800,
+          "y": 500,
+          "radius": 100
+        }
+      ],
+      "goal": {
+        "x": 2300,
+        "y": 900,
+        "width": 100,
+        "height": 100,
+        "color": "#00FF88",
+        "type": "escape_pod",
+        "locked": true
+      }
+    }
+  ],
+  "gameLogic": {
+    "winCondition": "Defeat the final boss and escape",
+    "loseCondition": "Player health reaches 0",
+    "scoring": {
+      "collectibles": 10,
+      "enemies": {
+        "drone": 25,
+        "elite": 150,
+        "boss_phase": 500
+      },
+      "timeBonus": true,
+      "perfectBonus": 50,
+      "damagePenalty": -5
+    },
+    "specialMechanics": {
+      "movement": "8-directional movement with momentum. Hold boost button for temporary speed increase (consumes energy)",
+      "jumping": "Vertical movement is always available in zero-G environment",
+      "collecting": "Power-ups provide temporary weapon upgrades or shields. Hidden collectibles reveal secret upgrades",
+      "combat": "Tap fire button for standard shots, charge for special weapons. Enemies have predictable patterns that can be learned",
+      "power-ups": "Weapon upgrades stack duration. Shield makes player invincible but doesn't stack"
+    }
+  },
+  "visualEffects": {
+    "particles": [
+      "engine_trail",
+      "weapon_glow",
+      "shield_hit_sparks",
+      "boss_energy_ripples"
+    ],
+    "screenEffects": [
+      "camera_shake_on_hit",
+      "slow_motion_on_kill",
+      "neon_glitch_transitions"
+    ],
+    "lighting": "dynamic_neon_glow",
+    "postProcessing": [
+      "scanlines",
+      "color_bleed",
+      "bloom"
+    ]
+  }
+} gen

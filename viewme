@@ -1,0 +1,60 @@
+● 🎮 AI Game Engine - Project Overview
+
+  🚀 What It Does
+
+  Complete AI-powered 2D game generation platform that creates playable games from natural language descriptions using DeepSeek AI, with a
+  professional game engine, visual wizard interface, and export capabilities.
+
+  ✨ Key Features
+
+  - 4-Step Wizard: Visual style → Complexity → Theme → Generation
+  - Universal Game Engine: Physics, collisions, particles, audio
+  - Smart AI Integration: Handles 4K limits with continuation
+  - Theme System: 6 visual styles × 6 themes × 4 complexity levels
+  - Professional Export: Standalone HTML5 games
+  - Robust Fallbacks: Always delivers working games
+
+  📁 Project Structure
+
+  🎮 AI Game Engine/
+  ├── 📦 public/
+  │   └── vite.svg                    # App icon
+  ├── 📂 src/
+  │   ├── 📄 main.tsx                 # React app entry point
+  │   ├── 📄 index.css                # Global styles + animations
+  │   ├── 📄 App.tsx                  # Main app with 4 tabs (Wizard/Prompt/Editor/Preview)
+  │   ├── 🎯 components/
+  │   │   ├── GameWizard.tsx          # 4-step game generation wizard
+  │   │   ├── AIPrompt.tsx            # Basic prompt interface
+  │   │   ├── GameEditor.tsx          # Visual game editor
+  │   │   ├── Preview.tsx             # Playable game preview
+  │   │   ├── ParticleBackground.tsx  # Animated background
+  │   │   └── GameDebugger.tsx        # Debug panel for troubleshooting
+  │   ├── 🎮 engine/
+  │   │   ├── GameEngine.ts           # Universal 2D game engine
+  │   │   └── ParticleSystem.ts       # Particle effects system
+  │   └── 🤖 services/
+  │       ├── deepseek.ts             # Basic DeepSeek API integration
+  │       └── enhancedGameGeneration.ts # Advanced AI generation with themes
+  ├── 📝 Config Files
+  │   ├── package.json                # Dependencies & scripts
+  │   ├── vite.config.ts             # Vite bundler config
+  │   ├── tailwind.config.js         # CSS framework config
+  │   └── tsconfig.json              # TypeScript config
+
+  🎯 Core Components
+
+  🧙 GameWizard - Professional 4-step interface
+  🎮 GameEngine - Universal engine runs any generated game🤖 Enhanced Generation - Smart AI with theme libraries
+  ✨ Particle System - Visual effects for all actions
+  🐛 Debug System - Real-time game data inspection
+
+  🚀 User Flow
+
+  1. Wizard → Choose style/complexity/theme
+  2. AI Generate → Creates complete game JSON
+  3. Engine Render → Physics + particles + audio
+  4. Play → Full interactive experience
+  5. Export → Standalone HTML5 game
+
+  Result: From idea to playable game in 60 seconds! 🎮✨

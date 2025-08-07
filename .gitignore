@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+python_backend/__pycache__/
+python_backend/venv/
+
+# Environment files (API keys and secrets)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+python_backend/.env
+python_backend/config.py
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+*.pyc
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Game saves and temp files
+game_saves/
+temp/
+*.tmp
+
+# API keys and sensitive configs
+**/config.py
+**/*api*key*
+**/*secret*

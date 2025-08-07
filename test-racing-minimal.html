@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Racing Test - Minimal Debug</title>
+    <style>
+        body { margin: 0; background: #1a1a1a; color: white; font-family: monospace; }
+        canvas { border: 2px solid #00ff00; background: #2F4F4F; }
+        .debug { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 10px; }
+    </style>
+</head>
+<body>
+    <div class="debug">
+        <h3>🏎️ Racing Debug Test</h3>
+        <div id="debug-info">Starting...</div>
+        <div id="controls">Use Arrow Keys or WASD to move</div>
+    </div>
+    
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+    <script>
+        console.log('🚀 Starting minimal racing test...');
+        
+        // Minimal racing game engine
+        class MinimalRacingEngine {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.keys = new Set();
+                
+                // Simple car object
+                this.car = {
+                    x: 100,
+                    y: 200,
+                    width: 48,
+                    height: 32,
+                    speed: 0,
+                    angle: 0,
+                    maxSpeed: 8,
+                    acceleration: 0.3,
+                    friction: 0.02
+                };
+                
+                this.debugInfo = document.getElementById('debug-info');
+                
+                // Setup input
+                this.setupInput();
+                
+                // Start game loop
+                this.lastTime = 0;
+                this.gameLoop();
+                
+                console.log('✅ Minimal racing engine started');
+            }
+            
+            setupInput() {
+                document.addEventListener('keydown', (e) => {
+                    this.keys.add(e.code);
+                    console.log('🎮 Key pressed:', e.code);
+                });
+                
+                document.addEventListener('keyup', (e) => {
+                    this.keys.delete(e.code);
+                });
+            }
+            
+            update(deltaTime) {
+                const car = this.car;
+                
+                // Input handling
+                let accelerating = this.keys.has('ArrowUp') || this.keys.has('KeyW');
+                let braking = this.keys.has('ArrowDown') || this.keys.has('KeyS');
+                let turningLeft = this.keys.has('ArrowLeft') || this.keys.has('KeyA');
+                let turningRight = this.keys.has('ArrowRight') || this.keys.has('KeyD');
+                
+                // Speed control
+                if (accelerating) {
+                    car.speed = Math.min(car.maxSpeed, car.speed + car.acceleration);
+                    console.log('🏎️ Accelerating, speed:', car.speed);
+                } else if (braking) {
+                    car.speed = Math.max(-car.maxSpeed * 0.5, car.speed - car.acceleration * 2);
+                    console.log('🛑 Braking, speed:', car.speed);
+                } else {
+                    // Friction
+                    if (car.speed > 0) {
+                        car.speed = Math.max(0, car.speed - car.friction);
+                    } else if (car.speed < 0) {
+                        car.speed = Math.min(0, car.speed + car.friction);
+                    }
+                }
+                
+                // Steering
+                if (Math.abs(car.speed) > 0.1) {
+                    if (turningLeft) {
+                        car.angle -= 0.05;
+                        console.log('⬅️ Turning left, angle:', car.angle);
+                    }
+                    if (turningRight) {
+                        car.angle += 0.05;
+                        console.log('➡️ Turning right, angle:', car.angle);
+                    }
+                }
+                
+                // Movement
+                car.x += Math.cos(car.angle) * car.speed;
+                car.y += Math.sin(car.angle) * car.speed;
+                
+                // Keep on screen
+                car.x = Math.max(0, Math.min(this.canvas.width - car.width, car.x));
+                car.y = Math.max(0, Math.min(this.canvas.height - car.height, car.y));
+                
+                // Update debug info
+                this.debugInfo.innerHTML = `
+                    Position: (${Math.round(car.x)}, ${Math.round(car.y)})<br>
+                    Speed: ${car.speed.toFixed(2)}<br>
+                    Angle: ${car.angle.toFixed(2)}<br>
+                    Keys: ${Array.from(this.keys).join(', ')}<br>
+                    Status: ${accelerating ? 'Accelerating' : braking ? 'Braking' : 'Coasting'}
+                `;
+            }
+            
+            render() {
+                const ctx = this.ctx;
+                const car = this.car;
+                
+                // Clear screen
+                ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw track lines
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([10, 10]);
+                ctx.beginPath();
+                ctx.moveTo(0, this.canvas.height / 2);
+                ctx.lineTo(this.canvas.width, this.canvas.height / 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // Draw car
+                ctx.save();
+                ctx.translate(car.x + car.width/2, car.y + car.height/2);
+                ctx.rotate(car.angle);
+                
+                // Car emoji
+                ctx.font = '32px serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#00ffff';
+                ctx.fillText('🏎️', 0, 0);
+                
+                ctx.restore();
+                
+                // Draw speed indicator
+                ctx.fillStyle = '#00ff00';
+                ctx.fillRect(10, this.canvas.height - 30, Math.abs(car.speed) * 20, 10);
+            }
+            
+            gameLoop(currentTime = 0) {
+                const deltaTime = (currentTime - this.lastTime) / 1000;
+                this.lastTime = currentTime;
+                
+                if (deltaTime > 0 && deltaTime < 0.1) { // Prevent huge jumps
+                    this.update(deltaTime);
+                }
+                this.render();
+                
+                requestAnimationFrame((time) => this.gameLoop(time));
+            }
+        }
+        
+        // Start the test
+        const canvas = document.getElementById('gameCanvas');
+        const engine = new MinimalRacingEngine(canvas);
+        
+        console.log('🎯 Test instructions:');
+        console.log('- Press Arrow Keys or WASD');
+        console.log('- Car should move and turn');
+        console.log('- Check console for debug logs');
+        console.log('- Check debug panel for live info');
+    </script>
+</body>
+</html>
